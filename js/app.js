@@ -12,6 +12,8 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+
+    //Constantly move enemies and reset their possition when they move out of canvas
    this.x += this.speed * dt;
    if (this.x >= 505) {
      this.x = -100;
@@ -25,10 +27,11 @@ Enemy.prototype.render = function() {
 
 // Player class
 class Player {
-  constructor(x,y) {
+  constructor(x,y, speed) {
     this.sprite = 'images/char-boy.png'; //load the hero image
     this.x = x;
     this.y = y;
+    this.speed = speed;
   }
   update(dt) {
     dt = 20;
@@ -36,18 +39,47 @@ class Player {
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
-  handleInput(){
+  //Move a player method
+  handleInput(keypress){
+    switch (keypress) {
+      case 'left':
+        this.x -= this.speed;
+          if (this.x <= 0) {
+            this.x = 3;
+          }
+        break;
+        case 'up':
+          this.y -= this.speed - 15;
+          if (this.y <= -20) {
+            this.y = -20; //locking the possition and unabling further movement
+            setTimeout(() => (this.y = 405) && (this.x = 203), 500); //adding a delay to reset position
+          }
+          break;
+          case 'right':
+            this.x += this.speed;
+            if (this.x >= 403) {
+              this.x = 403;
+            }
+            break;
+            case 'down':
+              this.y += this.speed -15;
+              if (this.y >= 405) {
+                this.y = 405;
+              }
+              break;
+      default:
 
+    }
   }
 };
 
 // Initializing objects
-let bug1 = new Enemy(10,145, 150);
-let bug2 = new Enemy(10,230, 150);
-let bug3 = new Enemy(10,60, 150);
+let bug1 = new Enemy(10, 145, 150);
+let bug2 = new Enemy(10, 230, 150);
+let bug3 = new Enemy(10, 60, 150);
 
 let allEnemies = [bug1, bug2, bug3];
-let player = new Player (203,405);
+let player = new Player (203, 405, 100);
 
 
 // This listens for key presses and sends the keys to your
