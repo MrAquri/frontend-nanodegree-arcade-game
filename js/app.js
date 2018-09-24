@@ -1,13 +1,9 @@
 // Enemies our player must avoid
-var Enemy = function(x,y) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
+var Enemy = function(x,y, speed) {
     this.x = x;
     this.y = y;
-    this.sprite = 'images/enemy-bug.png';
+    this.sprite = 'images/enemy-bug.png'; //load the image of the enemies
+    this.speed  = speed;
 };
 
 // Update the enemy's position, required method for game
@@ -16,7 +12,10 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    dt = 20;
+   this.x += this.speed * dt;
+   if (this.x >= 505) {
+     this.x = -100;
+   }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -24,10 +23,10 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Now write your own player class
+// Player class
 class Player {
   constructor(x,y) {
-    this.sprite = 'images/char-boy.png';
+    this.sprite = 'images/char-boy.png'; //load the hero image
     this.x = x;
     this.y = y;
   }
@@ -40,15 +39,12 @@ class Player {
   handleInput(){
 
   }
-}
-// This class requires an update(), render() and
-// a handleInput() method.
+};
 
-
-// Now instantiate your objects.
-var bug1 = new Enemy(10,145);
-var bug2 = new Enemy(10,230);
-var bug3 = new Enemy(10,60);
+// Initializing objects
+let bug1 = new Enemy(10,145, 150);
+let bug2 = new Enemy(10,230, 150);
+let bug3 = new Enemy(10,60, 150);
 
 let allEnemies = [bug1, bug2, bug3];
 let player = new Player (203,405);
