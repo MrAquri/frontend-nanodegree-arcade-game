@@ -1,3 +1,6 @@
+//Saving variables globally
+var lvlNum = 0; //Current level
+
 // Enemies our player must avoid
 var Enemy = function(x,y, speed) {
     this.x = x;
@@ -18,6 +21,9 @@ Enemy.prototype.update = function(dt) {
    if (this.x >= 505) {
      this.x = -100;
    }
+
+   //Cheking for collisions between a player and enemies
+
 };
 
 // Draw the enemy on the screen, required method for game
@@ -34,7 +40,6 @@ class Player {
     this.speed = speed;
   }
   update(dt) {
-    dt = 20;
   }
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -49,10 +54,12 @@ class Player {
           }
         break;
         case 'up':
-          this.y -= this.speed - 15;
+          this.y -= this.speed - 15; //decreasing the speed a little to optimize the movement
           if (this.y <= -20) {
             this.y = -20; //locking the possition and unabling further movement
-            setTimeout(() => (this.y = 405) && (this.x = 203), 500); //adding a delay to reset position
+            lvlNum++;
+            setTimeout(() => (this.y = 405) && (this.x = 203), 200); //adding a delay to reset position
+            return lvlNum;
           }
           break;
           case 'right':
@@ -68,7 +75,6 @@ class Player {
               }
               break;
       default:
-
     }
   }
 };
@@ -80,7 +86,6 @@ let bug3 = new Enemy(10, 60, 150);
 
 let allEnemies = [bug1, bug2, bug3];
 let player = new Player (203, 405, 100);
-
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -94,3 +99,8 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+//Creating a span to check the level
+var level = document.createElement('span');
+level.innerHTML = 'Current level: '  + lvlNum;
+document.body.appendChild(level);

@@ -13,6 +13,9 @@
  * writing app.js a little simpler to work with.
  */
 
+ //Saving variables globally
+
+
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
