@@ -57,9 +57,8 @@ class Player {
           this.y -= this.speed - 15; //decreasing the speed a little to optimize the movement
           if (this.y <= -20) {
             this.y = -20; //locking the possition and unabling further movement
-            lvlNum++;
+            levelupdate();
             setTimeout(() => (this.y = 405) && (this.x = 203), 200); //adding a delay to reset position
-            return lvlNum;
           }
           break;
           case 'right':
@@ -102,5 +101,10 @@ document.addEventListener('keyup', function(e) {
 
 //Creating a span to check the level
 var level = document.createElement('span');
-level.innerHTML = 'Current level: '  + lvlNum;
+level.innerHTML = 'Current level: 0';
 document.body.appendChild(level);
+
+function levelupdate() {
+  lvlNum++;
+  level.innerHTML = 'Current level: '  + lvlNum;
+}
