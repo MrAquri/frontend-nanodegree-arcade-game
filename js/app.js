@@ -1,5 +1,9 @@
-//Saving variables globally
+//Global variables
 var lvlNum = 0; //Current level
+var modal = document.querySelector('#myModal');
+const closing = document.querySelector(".close");
+let popuptext = document.querySelector('.popuptext')
+
 
 // Enemies our player must avoid
 var Enemy = function(x,y, speed) {
@@ -107,4 +111,21 @@ document.body.appendChild(level);
 function levelupdate() {
   lvlNum++;
   level.innerHTML = 'Current level: '  + lvlNum;
+  congrats();
+  close();
+  }
+
+//Creating popup function
+function congrats() {
+    if (lvlNum == 99) {
+        popuptext.innerHTML = '<b>Congratulations !!</b> <br/> <br/>You are amazing! </br> <br/> Your power is over 99! <br/> <br/>';
+        modal.style.display = 'block';
+    }
+}
+
+//function closing popup screen
+function close() {
+    closing.addEventListener('click', function() {
+        modal.style.display = "none";
+    })
 }
