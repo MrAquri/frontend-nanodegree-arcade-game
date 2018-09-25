@@ -3,7 +3,7 @@ var lvlNum = 0; //Current level
 var modal = document.querySelector('#myModal');
 const closing = document.querySelector(".close");
 let popuptext = document.querySelector('.popuptext')
-
+let imageRemove = document.getElementById('Life');
 
 // Enemies our player must avoid
 var Enemy = function(x,y, speed) {
@@ -26,13 +26,17 @@ Enemy.prototype.update = function(dt) {
      this.x = -100;
    }
 
-   //Cheking for collisions between a player and enemies
+   //Checking for collisions between a player and enemies
     if (player.x < this.x + 72 &&
         player.x + 50 > this.x &&
         player.y < this.y + 48.5 &&
         player.y + 56.5 > this.y) {
+          //Remove one life when collided with enemy
+        imageRemove.removeChild(imageRemove.lastChild);
+        imageRemove.removeChild(imageRemove.lastChild);
       player.x = 203;
       player.y = 405;
+
     }
 };
 
@@ -129,7 +133,7 @@ document.addEventListener('keyup', function(e) {
 });
 
 //Creating a span to check the level
-var level = document.createElement('span');
+let level = document.createElement('span');
 level.innerHTML = 'Current level: 0';
 document.body.appendChild(level);
 

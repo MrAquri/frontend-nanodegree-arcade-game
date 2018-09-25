@@ -9,7 +9,9 @@ span {
   font-style: italic;
   font-size: 1.5em;
   text-align: center;
+  display: flex;
 }
+
 /* Popup container */
 .modal {
     display: none; /* Hidden by default */
