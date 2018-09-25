@@ -82,6 +82,23 @@ class Player {
   }
 };
 
+class GatherLife {
+  constructor(x, y) {
+  this.sprite = 'images/Heart.png';
+  this.x = x;
+  this.y = y;
+  }
+  render() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  }
+};
+
+//Creating array to randomize position of heart to spawn only in the middle on the stones
+const xH = [3, 103, 203, 303, 403];
+const yH = [65, 150, 235];
+const xHF = xH[Math.floor(Math.random() * (4 - 0 + 1)) + 0];
+const yHF = yH[Math.floor(Math.random() * (2 - 0 + 1)) + 0];
+
 // Initializing objects
 let bug1 = new Enemy(10, 145, 150);
 let bug2 = new Enemy(10, 230, 150);
@@ -89,6 +106,7 @@ let bug3 = new Enemy(10, 60, 150);
 
 let allEnemies = [bug1, bug2, bug3];
 let player = new Player (203, 405, 100);
+let heart = new GatherLife (xHF, yHF);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
