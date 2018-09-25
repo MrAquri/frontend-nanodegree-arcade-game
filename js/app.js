@@ -27,7 +27,13 @@ Enemy.prototype.update = function(dt) {
    }
 
    //Cheking for collisions between a player and enemies
-
+    if (player.x < this.x + 72 &&
+        player.x + 50 > this.x &&
+        player.y < this.y + 48.5 &&
+        player.y + 56.5 > this.y) {
+      player.x = 203;
+      player.y = 405;
+    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -43,7 +49,7 @@ class Player {
     this.y = y;
     this.speed = speed;
   }
-  update(dt) {
+  update() {
   }
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -81,6 +87,7 @@ class Player {
     }
   }
 };
+
 
 class GatherLife {
   constructor(x, y) {
