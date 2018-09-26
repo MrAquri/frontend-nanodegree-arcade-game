@@ -35,7 +35,6 @@ Enemy.prototype.update = function(dt) {
         player.y + 56.5 > this.y) {
           //Remove one life when collided with enemy
         imageDiv.removeChild(imageDiv.lastChild);
-        imageDiv.removeChild(imageDiv.lastChild);
         if (imageDiv.children.length == 0) {
           tryagain();
           close();
@@ -108,6 +107,7 @@ class GatherLife {
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
+
   addlife () {
     if (imageDiv.children.length == 3) {
 
@@ -155,6 +155,19 @@ let level = document.createElement('span');
 level.innerHTML = 'Current level: 0';
 document.body.appendChild(level);
 
+//Creating player's lives
+function createlives () {
+  for (var j = 0; j < 3; j++) {
+    let img = document.createElement('img');
+    img.src = 'images/Heart.png';
+    img.classList.add('picture');
+    img.height = '100';
+    img.alt = 'heart';
+    imageDiv.appendChild(img);
+  }
+}
+createlives();
+
 function levelupdate() {
   lvlNum++;
   level.innerHTML = 'Current level: '  + lvlNum;
@@ -175,7 +188,11 @@ function tryagain () {
   popuptext.innerHTML = '<b> Sorry :< </b> <br/> <br/>You lost! </br> <br/> Try again! <br/> <br/>';
 
   restartButton.addEventListener('click', function() {
-
+    heart.addlife();
+    heart.addlife();
+    heart.addlife();
+    lvlNum = 0;
+    modal.style.display = "none";
   })
   modal.style.display = 'block';
 }
