@@ -6,49 +6,72 @@ let popuptext = document.querySelector('.popuptext')
 let imageDiv = document.getElementById('Life');
 let restartButton = document.querySelector('.restart');
 
-
 // Enemies our player must avoid
-var Enemy = function(x,y, speed) {
+class Enemy {
+  constructor(x,y, speed) {
     this.x = x;
     this.y = y;
     this.sprite = 'images/enemy-bug.png'; //load the image of the enemies
     this.speed  = speed;
 };
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-
-    //Constantly move enemies and reset their possition when they move out of canvas
-   this.x += this.speed * dt;
-   if (this.x >= 505) {
-     this.x = -100;
-   }
-
-   //Checking for collisions between a player and enemies
-    if (player.x < this.x + 72 &&
-        player.x + 50 > this.x &&
-        player.y < this.y + 48.5 &&
-        player.y + 56.5 > this.y) {
-          //Remove one life when collided with enemy
-        imageDiv.removeChild(imageDiv.lastChild);
-        if (imageDiv.children.length == 0) {
-          tryagain();
-          close();
-        }
-      player.x = 203;
-      player.y = 405;
-
+//Randomize spawning enemies location before entering canvas
+    moveEnemies() {
+      const xH = [-103, -203, -303];
+      const yH = [65, 150, 235];
+      let xHF = xH[Math.floor(Math.random() * (3 - 0 + 1)) + 0];
+      let yHF = yH[Math.floor(Math.random() * (2 - 0 + 1)) + 0];
+      this.x = xHF;
+      this.y = yHF;
     }
-};
 
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+    update(dt) {
+      //Constantly move enemies and reset their possition when they move out of canvas
+     this.x += this.speed * dt;
+     if (this.x > 700) {
+       bug1.moveEnemies();
+       bug2.moveEnemies();
+       bug3.moveEnemies();
+       bug4.moveEnemies();
+       bug5.moveEnemies();
+     }
+
+     if (lvlNum==15) {
+       this.speed = 250;
+     }
+     if (lvlNum==40) {
+       this.speed = 350;
+     }
+    if (lvlNum==60) {
+      this.speed = 450;
+    }
+    if (lvlNum==80) {
+      this.speed = 550;
+    }
+    if (lvlNum==95) {
+      this.speed=650
+    }
+     //Checking for collisions between a player and enemies
+      if (player.x < this.x + 72 &&
+          player.x + 50 > this.x &&
+          player.y < this.y + 48.5 &&
+          player.y + 56.5 > this.y) {
+            //Remove one life when collided with enemy
+          imageDiv.removeChild(imageDiv.lastChild);
+          if (imageDiv.children.length == 0) {
+            tryagain();
+            close();
+          }
+        player.x = 203;
+        player.y = 405;
+
+      }
+  };
+  // Draw the enemy on the screen, required method for game
+      render() {
+            ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+      }
+    };
 
 // Player class
 class Player {
@@ -121,16 +144,21 @@ class GatherLife {
       imageDiv.appendChild(img);
     }
   }
+
+  moveOjbect() {
+    const xH = [3, 103, 203, 303, 403];
+    const yH = [65, 150, 235];
+    let xHF = xH[Math.floor(Math.random() * (4 - 0 + 1)) + 0];
+    let yHF = yH[Math.floor(Math.random() * (2 - 0 + 1)) + 0];
+    this.x = xHF;
+    this.y = yHF;
+  }
+
   update(dt)  {
 //Adds moving heart with randomized spawn location
     this.x -= this.speed * dt;
     if (this.x <= -200) {
-      const xH = [3, 103, 203, 303, 403];
-      const yH = [65, 150, 235];
-      let xHF = xH[Math.floor(Math.random() * (4 - 0 + 1)) + 0];
-      let yHF = yH[Math.floor(Math.random() * (2 - 0 + 1)) + 0];
-      this.x = xHF;
-      this.y = yHF;
+      heart.moveOjbect();
     }
 
     if (player.x < this.x + 65 &&
@@ -140,6 +168,7 @@ class GatherLife {
       heart.addlife();
     }
   }
+
 };
 
 //Creating array to randomize position of heart to spawn only in the middle on the stones
@@ -152,10 +181,12 @@ let yHF = yH[Math.floor(Math.random() * (2 - 0 + 1)) + 0];
 let bug1 = new Enemy(10, 145, 150);
 let bug2 = new Enemy(10, 230, 150);
 let bug3 = new Enemy(10, 60, 150);
+let bug4 = new Enemy (-100, 150, 150);
+let bug5 = new Enemy (-200, 235, 150)
 
-let allEnemies = [bug1, bug2, bug3];
+let allEnemies = [bug1, bug2, bug3, bug4, bug5];
 let player = new Player (203, 405, 100);
-let heart = new GatherLife (xHF, yHF, 650);
+let heart = new GatherLife (203, 235, 100);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -191,7 +222,6 @@ createlives();
 function levelupdate() {
   lvlNum++;
   level.innerHTML = 'Current level: '  + lvlNum;
-  heart.addlife();
   congrats();
   close();
   }
