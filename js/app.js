@@ -186,7 +186,7 @@ let bug5 = new Enemy (-200, 235, 150)
 
 let allEnemies = [bug1, bug2, bug3, bug4, bug5];
 let player = new Player (203, 405, 100);
-let heart = new GatherLife (203, 235, 100);
+let heart = new GatherLife (203, 235, 600);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -231,20 +231,13 @@ function congrats() {
     if (lvlNum == 99) {
         popuptext.innerHTML = '<b> Congratulations !!</b> <br/> <br/>You are amazing! </br> <br/> Your power is over 99! <br/> <br/>';
         modal.style.display = 'block';
+        reset();
     }
 }
 
 function tryagain () {
   popuptext.innerHTML = '<b> Sorry :< </b> <br/> <br/>You lost! </br> <br/> Try again! <br/> <br/>';
-
-  restartButton.addEventListener('click', function() {
-    heart.addlife();
-    heart.addlife();
-    heart.addlife();
-    lvlNum = 0;
-    level.innerHTML = 'Current level: 0'
-    modal.style.display = "none";
-  })
+    reset();
   modal.style.display = 'block';
 }
 
@@ -253,4 +246,20 @@ function close() {
     closing.addEventListener('click', function() {
         modal.style.display = "none";
     })
+}
+
+function reset () {
+  restartButton.addEventListener('click', function() {
+    heart.addlife();
+    heart.addlife();
+    heart.addlife();
+    lvlNum = 0;
+    bug1.speed = 150;
+    bug2.speed = 150;
+    bug3.speed = 150;
+    bug4.speed = 150;
+    bug5.speed = 150;
+    level.innerHTML = 'Current level: 0'
+    modal.style.display = "none";
+})
 }
