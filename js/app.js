@@ -99,10 +99,11 @@ class Player {
 
 
 class GatherLife {
-  constructor(x, y) {
+  constructor(x, y, speed) {
   this.sprite = 'images/Heart.png';
   this.x = x;
   this.y = y;
+  this.speed = speed;
   }
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -120,13 +121,32 @@ class GatherLife {
       imageDiv.appendChild(img);
     }
   }
+  update(dt)  {
+//Adds moving heart with randomized spawn location
+    this.x -= this.speed * dt;
+    if (this.x <= -200) {
+      const xH = [3, 103, 203, 303, 403];
+      const yH = [65, 150, 235];
+      let xHF = xH[Math.floor(Math.random() * (4 - 0 + 1)) + 0];
+      let yHF = yH[Math.floor(Math.random() * (2 - 0 + 1)) + 0];
+      this.x = xHF;
+      this.y = yHF;
+    }
+
+    if (player.x < this.x + 65 &&
+        player.x + 50 > this.x &&
+        player.y < this.y + 65 &&
+        56.5 + player.y > this.y) {
+      heart.addlife();
+    }
+  }
 };
 
 //Creating array to randomize position of heart to spawn only in the middle on the stones
 const xH = [3, 103, 203, 303, 403];
 const yH = [65, 150, 235];
-const xHF = xH[Math.floor(Math.random() * (4 - 0 + 1)) + 0];
-const yHF = yH[Math.floor(Math.random() * (2 - 0 + 1)) + 0];
+let xHF = xH[Math.floor(Math.random() * (4 - 0 + 1)) + 0];
+let yHF = yH[Math.floor(Math.random() * (2 - 0 + 1)) + 0];
 
 // Initializing objects
 let bug1 = new Enemy(10, 145, 150);
@@ -135,7 +155,7 @@ let bug3 = new Enemy(10, 60, 150);
 
 let allEnemies = [bug1, bug2, bug3];
 let player = new Player (203, 405, 100);
-let heart = new GatherLife (xHF, yHF);
+let heart = new GatherLife (xHF, yHF, 650);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -192,6 +212,7 @@ function tryagain () {
     heart.addlife();
     heart.addlife();
     lvlNum = 0;
+    level.innerHTML = 'Current level: 0'
     modal.style.display = "none";
   })
   modal.style.display = 'block';

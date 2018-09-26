@@ -98,6 +98,7 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+        heart.update(dt);
     }
 
     /* This function initially draws the "game level", it will then call
