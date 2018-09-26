@@ -3,7 +3,9 @@ var lvlNum = 0; //Current level
 var modal = document.querySelector('#myModal');
 const closing = document.querySelector(".close");
 let popuptext = document.querySelector('.popuptext')
-let imageRemove = document.getElementById('Life');
+let imageDiv = document.getElementById('Life');
+let restartButton = document.querySelector('.restart');
+
 
 // Enemies our player must avoid
 var Enemy = function(x,y, speed) {
@@ -32,8 +34,12 @@ Enemy.prototype.update = function(dt) {
         player.y < this.y + 48.5 &&
         player.y + 56.5 > this.y) {
           //Remove one life when collided with enemy
-        imageRemove.removeChild(imageRemove.lastChild);
-        imageRemove.removeChild(imageRemove.lastChild);
+        imageDiv.removeChild(imageDiv.lastChild);
+        imageDiv.removeChild(imageDiv.lastChild);
+        if (imageDiv.children.length == 0) {
+          tryagain();
+          close();
+        }
       player.x = 203;
       player.y = 405;
 
@@ -102,6 +108,18 @@ class GatherLife {
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
+  addlife () {
+    if (imageDiv.children.length == 3) {
+
+    } else {
+      let img = document.createElement('img');
+      img.src = 'images/Heart.png';
+      img.classList.add('picture');
+      img.height = '100';
+      img.alt = 'heart';
+      imageDiv.appendChild(img);
+    }
+  }
 };
 
 //Creating array to randomize position of heart to spawn only in the middle on the stones
@@ -140,6 +158,7 @@ document.body.appendChild(level);
 function levelupdate() {
   lvlNum++;
   level.innerHTML = 'Current level: '  + lvlNum;
+  heart.addlife();
   congrats();
   close();
   }
@@ -147,9 +166,18 @@ function levelupdate() {
 //Creating popup function
 function congrats() {
     if (lvlNum == 99) {
-        popuptext.innerHTML = '<b>Congratulations !!</b> <br/> <br/>You are amazing! </br> <br/> Your power is over 99! <br/> <br/>';
+        popuptext.innerHTML = '<b> Congratulations !!</b> <br/> <br/>You are amazing! </br> <br/> Your power is over 99! <br/> <br/>';
         modal.style.display = 'block';
     }
+}
+
+function tryagain () {
+  popuptext.innerHTML = '<b> Sorry :< </b> <br/> <br/>You lost! </br> <br/> Try again! <br/> <br/>';
+
+  restartButton.addEventListener('click', function() {
+
+  })
+  modal.style.display = 'block';
 }
 
 //function closing popup screen
