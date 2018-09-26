@@ -59,6 +59,6 @@ span {
 
 /* The Reset Button */
 .reset {
-    float: right;
+    float: left;
     cursor: pointer;
 }
